@@ -3,15 +3,13 @@ import mongoose from 'mongoose';
 import objectId from '@/libs/objectId';
 import errors from '@/libs/errors';
 import roles from '@/libs/roles';
-import sso from '@/libs/sso';
 
 export default () => {
   const UserSchema = new mongoose.Schema({
     userName: String,
     userName_std: String,
-    isSsoAccount: Boolean,
     role: String,
-    hash: String,   // only for isSsoAccount=false
+    hash: String,
     settings: {
       compiler: String,
       hideId: Boolean,
@@ -20,7 +18,6 @@ export default () => {
       realName: String,
       studentId: String,
       displayName: String,
-      teacher: String,
       initial: Boolean,
     },
     submissionNumber: Number,
@@ -37,14 +34,6 @@ export default () => {
    */
   UserSchema.statics.normalizeUserName = function (userName) {
     return String(userName).toLowerCase().trim();
-  };
-
-  /**
-   * Build userName for SSO account
-   * @return {String}
-   */
-  UserSchema.statics.buildSsoUserName = function ({studentId}) {
-    return `sso_${studentId}`;
   };
 
   /**
@@ -106,56 +95,22 @@ export default () => {
   };
 
   /**
-   * Insert a new SSO account
+   * Create a new account
    * @return {User} Newly created user object
    */
-  UserSchema.statics.createSsoUserAsync = async function ({realName, studentId}) {
-    const userName = User.buildSsoUserName({ studentId });
+  UserSchema.statics.createUserAsync = async function (userName, password, studentId, role = 'student') {
     if (await User.getUserObjectByUserNameAsync(userName, false) !== null) {
       throw new errors.UserError('Username already taken');
     }
-    const newUser = new this({
-      isSsoAccount: true,
-      role: 'student',
-      profile: {
-        realName,
-        studentId,
-        displayName: studentId,
-        teacher: '',
-        initial: true,
-      },
-      submissionNumber: 0,
-    });
-    newUser.setUserName(userName);
-    try {
-      await newUser.save();
-    } catch (e) {
-      if (e.name === 'MongoError' && e.code === 11000) {
-        // duplicate key error
-        throw new errors.UserError('Username already taken');
-      } else {
-        throw e;
-      }
+    if (roles[role] === undefined) {
+      throw new errors.UserError('Invalid role');
     }
-    return newUser;
-  };
-
-  /**
-   * Insert a new non-SSO account
-   * @return {User} Newly created user object
-   */
-  UserSchema.statics.createNonSsoUserAsync = async function ({userName, password}) {
-    if (await User.getUserObjectByUserNameAsync(userName, false) !== null) {
-      throw new errors.UserError('Username already taken');
-    }
-    const newUser = new this({
-      isSsoAccount: false,
-      role: 'student',
+    const newUser = new User({
+      role,
       profile: {
         realName: '',
-        studentId: '',
+        studentId,
         displayName: userName,
-        teacher: '',
         initial: true,
       },
       settings: {
@@ -179,6 +134,31 @@ export default () => {
   };
 
   /**
+   * Set password for a user
+   * @return {User} The updated user object
+   */
+  UserSchema.statics.setUserPasswordAsync = async function (userName, newPassword) {
+    const user = await User.getUserObjectByUserNameAsync(userName);
+    await user.setPasswordAsync(newPassword);
+    await user.save();
+    return user;
+  };
+
+  /**
+   * Set role for a user
+   * @return {User} The updated user object
+   */
+  UserSchema.statics.setUserRoleAsync = async function (userName, newRole) {
+    if (roles[newRole] === undefined) {
+      throw new errors.UserError('Invalid role');
+    }
+    const user = await User.getUserObjectByUserNameAsync(userName);
+    user.role = newRole;
+    await user.save();
+    return user;
+  };
+
+  /**
    * Retrive an user object and verify its credential
    * @return {User} The user object if password matches
    */
@@ -187,43 +167,6 @@ export default () => {
     const match = await user.testPasswordAsync(password);
     if (!match) {
       throw new errors.UserError('Incorrect username or password');
-    }
-    return user;
-  };
-
-  /**
-   * Verify an SSO sign
-   * @return {User} The user object if the sso token is valid
-   */
-  UserSchema.statics.authenticateSsoAsync = async function (directory) {
-    const resp = await sso.getPropertiesAsync(directory);
-    if (resp.ok !== true) {
-      throw new errors.UserError('Session expired. Please sign in again.');
-    }
-    const studentId = resp.properties.UserToken;
-    const userName = User.buildSsoUserName({ studentId });
-    const user = await User.getUserObjectByUserNameAsync(userName, false);
-    if (user === null) {
-      // not signed in before. create a new account
-      // realname API is not working anymore :(
-      return await User.createSsoUserAsync({ realName: '', studentId });
-    }
-    return user;
-  };
-
-  /**
-   * For debug purpose only.
-   */
-  UserSchema.statics.authenticateFakeSsoAsync = async function (studentId) {
-    if (DI.config.ssoUrl !== false) {
-      throw new errors.PermissionError();
-    }
-    const userName = User.buildSsoUserName({ studentId });
-    const user = await User.getUserObjectByUserNameAsync(userName, false);
-    if (user === null) {
-      // not signed in before. create a new account
-      // realname API is not working anymore :(
-      return await User.createSsoUserAsync({ realName: '', studentId });
     }
     return user;
   };

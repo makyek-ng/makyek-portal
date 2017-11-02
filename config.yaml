@@ -7,7 +7,6 @@ base:
   cspReportUrl: /
   urlPrefix: ''
   cdnPrefix: ''
-  ssoUrl: http://127.0.0.1:20212   # false to enable debug mode and bypass SSO
   scoreboard:
     cacheDuration: 600000     # 10 minutes
   web:
