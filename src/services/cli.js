@@ -18,7 +18,7 @@ export default async () => {
   try {
     await main();
   } catch (e) {
-    console.error(e.stack);
+    DI.logger.error(e.message, e.stack);
   }
   await application.shutdown();
 };
