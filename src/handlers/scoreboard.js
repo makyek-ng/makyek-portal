@@ -1,6 +1,6 @@
 import * as web from 'express-decorators';
-import utils from 'libs/utils';
-import permissions from 'libs/permissions';
+import utils from '@/libs/utils';
+import permissions from '@/libs/permissions';
 
 @web.controller('/')
 export default class Handler {

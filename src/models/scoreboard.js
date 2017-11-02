@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import utils from 'libs/utils';
+import utils from '@/libs/utils';
 
 export default () => {
   const ScoreboardModel = {};

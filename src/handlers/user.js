@@ -1,8 +1,8 @@
 import * as web from 'express-decorators';
 import _ from 'lodash';
-import utils from 'libs/utils';
-import sanitizers from 'libs/sanitizers';
-import permissions from 'libs/permissions';
+import utils from '@/libs/utils';
+import sanitizers from '@/libs/sanitizers';
+import permissions from '@/libs/permissions';
 
 @web.controller('/user')
 export default class Handler {

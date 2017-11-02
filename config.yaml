@@ -1,5 +1,5 @@
 base:
-  db: mongodb://localhost/portal
+  db: mongodb://localhost/reversi-portal
   redis: redis://localhost
   secret: your_secret
   port: 80
@@ -37,9 +37,8 @@ base:
       moveTimeout: 5000       # 5 s
       roundTimeout: 180000    # 180 s
       memoryLimit: 367001600  # 350 MB
-      width: 20
-      height: 20
-      winningStones: 5
+      width: 15
+      height: 15
   profiling:
     eventBus: false
     addMatches: false

@@ -2,11 +2,11 @@ import * as web from 'express-decorators';
 import _ from 'lodash';
 import multer from 'multer';
 import fsp from 'fs-promise';
-import utils from 'libs/utils';
-import sanitizers from 'libs/sanitizers';
-import errors from 'libs/errors';
-import permissions from 'libs/permissions';
-import socket from 'libs/socket';
+import utils from '@/libs/utils';
+import sanitizers from '@/libs/sanitizers';
+import errors from '@/libs/errors';
+import permissions from '@/libs/permissions';
+import socket from '@/libs/socket';
 
 const binUpload = multer({
   storage: multer.diskStorage({}),

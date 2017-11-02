@@ -1,6 +1,6 @@
 import express from 'express';
 import glob from 'glob';
-import errors from 'libs/errors';
+import errors from '@/libs/errors';
 
 export default (app, io, logger) => {
 

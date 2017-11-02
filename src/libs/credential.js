@@ -1,4 +1,4 @@
-import objectId from 'libs/objectId';
+import objectId from '@/libs/objectId';
 
 const credential = {};
 

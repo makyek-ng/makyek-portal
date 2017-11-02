@@ -1,7 +1,7 @@
 import * as web from 'express-decorators';
-import utils from 'libs/utils';
-import sanitizers from 'libs/sanitizers';
-import permissions from 'libs/permissions';
+import utils from '@/libs/utils';
+import sanitizers from '@/libs/sanitizers';
+import permissions from '@/libs/permissions';
 
 @web.controller('/manage')
 export default class Handler {

@@ -1,5 +1,5 @@
 import validator from 'validator';
-import objectId from 'libs/objectId';
+import objectId from '@/libs/objectId';
 
 const sanitizers = {};
 

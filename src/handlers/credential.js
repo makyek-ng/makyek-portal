@@ -1,9 +1,9 @@
 import * as web from 'express-decorators';
-import utils from 'libs/utils';
-import sanitizers from 'libs/sanitizers';
-import errors from 'libs/errors';
-import credential from 'libs/credential';
-import permissions from 'libs/permissions';
+import utils from '@/libs/utils';
+import sanitizers from '@/libs/sanitizers';
+import errors from '@/libs/errors';
+import credential from '@/libs/credential';
+import permissions from '@/libs/permissions';
 
 const DIRECTORY_COOKIE = 'iPlanetDirectoryPro';
 
