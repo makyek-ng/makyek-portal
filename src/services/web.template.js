@@ -2,8 +2,8 @@ import nunjucks from 'nunjucks';
 import filesize from 'filesize';
 import moment from 'moment';
 import _ from 'lodash';
-import utils from 'libs/utils';
-import permissions from 'libs/permissions';
+import utils from '@/libs/utils';
+import permissions from '@/libs/permissions';
 
 export default (app) => {
 

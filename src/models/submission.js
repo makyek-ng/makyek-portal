@@ -3,10 +3,10 @@ import fsp from 'fs-promise';
 import uuid from 'uuid';
 import moment from 'moment';
 import mongoose from 'mongoose';
-import utils from 'libs/utils';
-import objectId from 'libs/objectId';
-import errors from 'libs/errors';
-import permissions from 'libs/permissions';
+import utils from '@/libs/utils';
+import objectId from '@/libs/objectId';
+import errors from '@/libs/errors';
+import permissions from '@/libs/permissions';
 
 export default () => {
   const SubmissionSchema = new mongoose.Schema({

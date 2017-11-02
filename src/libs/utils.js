@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import uuid from 'uuid';
 import auth from 'basic-auth';
-import errors from 'libs/errors';
-import permissions from 'libs/permissions';
+import errors from '@/libs/errors';
+import permissions from '@/libs/permissions';
 import queue from 'queue';
 
 const utils = {};

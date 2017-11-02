@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import fsp from 'fs-promise';
 import mongoose from 'mongoose';
-import utils from 'libs/utils';
-import objectId from 'libs/objectId';
-import errors from 'libs/errors';
+import utils from '@/libs/utils';
+import objectId from '@/libs/objectId';
+import errors from '@/libs/errors';
 
 export default () => {
   const MatchSchema = new mongoose.Schema({

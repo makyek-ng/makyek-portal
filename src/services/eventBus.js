@@ -1,5 +1,5 @@
 import { EventEmitter2 } from 'eventemitter2';
-import utils from 'libs/utils';
+import utils from '@/libs/utils';
 
 export default () => {
 

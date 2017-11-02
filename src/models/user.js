@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt-as-promised';
 import mongoose from 'mongoose';
-import objectId from 'libs/objectId';
-import errors from 'libs/errors';
-import roles from 'libs/roles';
-import sso from 'libs/sso';
+import objectId from '@/libs/objectId';
+import errors from '@/libs/errors';
+import roles from '@/libs/roles';
+import sso from '@/libs/sso';
 
 export default () => {
   const UserSchema = new mongoose.Schema({

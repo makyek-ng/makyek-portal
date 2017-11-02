@@ -1,6 +1,6 @@
 import session from 'express-session';
 import mongoSession from 'connect-mongo';
-import credential from 'libs/credential';
+import credential from '@/libs/credential';
 
 export default (app, dbConnection) => {
 
