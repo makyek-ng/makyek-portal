@@ -84,6 +84,18 @@ utils.static_url = (s) => {
   return `${DI.config.cdnPrefix}${s}`;
 };
 
+utils.checkPasswordReset = () => (req, res, next) => {
+  if (!req.credential.hasPermission(permissions.PROFILE)) {
+    next();
+    return;
+  }
+  if (req.credential.passwordNeedsReset) {
+    res.redirect(utils.url('/user/account'));
+    return;
+  }
+  next();
+};
+
 utils.checkCompleteProfile = () => (req, res, next) => {
   if (!req.credential.hasPermission(permissions.PROFILE)) {
     next();

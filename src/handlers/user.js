@@ -14,6 +14,7 @@ export default class Handler {
   }
 
   @web.get('/profile')
+  @web.middleware(utils.checkPasswordReset())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async getUserProfileAction(req, res) {
     const udoc = req.credential;
@@ -28,6 +29,7 @@ export default class Handler {
     realName: sanitizers.nonEmptyString(),
     displayName: sanitizers.nonEmptyString(),
   }))
+  @web.middleware(utils.checkPasswordReset())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postUserProfileAction(req, res) {
     const udoc = req.credential;
@@ -38,6 +40,8 @@ export default class Handler {
   }
 
   @web.get('/settings')
+  @web.middleware(utils.checkPasswordReset())
+  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async getUserSettingsAction(req, res) {
     const udoc = req.credential;
@@ -52,6 +56,8 @@ export default class Handler {
     compiler: sanitizers.nonEmptyString().in(_.keys(DI.config.compile.display)),
     hideId: sanitizers.bool(),
   }))
+  @web.middleware(utils.checkPasswordReset())
+  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postUserSettingsAction(req, res) {
     const udoc = req.credential;

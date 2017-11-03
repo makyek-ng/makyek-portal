@@ -211,6 +211,7 @@ export default class Handler {
   }
 
   @web.get('/create')
+  @web.middleware(utils.checkPasswordReset())
   @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.CREATE_SUBMISSION))
   async getSubmissionCreateAction(req, res) {
@@ -228,6 +229,7 @@ export default class Handler {
     code: sanitizers.nonEmptyString(),
     compiler: sanitizers.nonEmptyString().in(_.keys(DI.config.compile.display)),
   }))
+  @web.middleware(utils.checkPasswordReset())
   @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.CREATE_SUBMISSION))
   async postSubmissionCreateAction(req, res) {

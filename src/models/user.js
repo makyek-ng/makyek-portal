@@ -20,6 +20,7 @@ export default () => {
       displayName: String,
       initial: Boolean,
     },
+    passwordNeedsReset: Boolean,
     submissionNumber: Number,
   }, {
     timestamps: true,
@@ -116,6 +117,7 @@ export default () => {
       settings: {
         compiler: '',
       },
+      passwordNeedsReset: true,
       submissionNumber: 0,
     });
     newUser.setUserName(userName);
@@ -140,6 +142,7 @@ export default () => {
   UserSchema.statics.setUserPasswordAsync = async function (userName, newPassword) {
     const user = await User.getUserObjectByUserNameAsync(userName);
     await user.setPasswordAsync(newPassword);
+    user.passwordNeedsReset = true;
     await user.save();
     return user;
   };
