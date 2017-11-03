@@ -175,26 +175,6 @@ export default () => {
   };
 
   /**
-   * Update the profile of a user
-   * @return {User} The new user object
-   */
-  UserSchema.statics.updateProfileAsync = async function (userId, profile) {
-    if (profile !== Object(profile)) {
-      throw new Error('Parameter `profile` should be an object');
-    }
-    const user = await User.getUserObjectByIdAsync(userId);
-    user.profile = {
-      ...profile,
-      initial: false,
-    };
-    if (user.profile.displayName) {
-      user.profile.displayName = user.profile.displayName.substr(0, 100);
-    }
-    await user.save();
-    return user;
-  };
-
-  /**
    * Check whether a user has some permissions
    * @return {Boolean}
    */

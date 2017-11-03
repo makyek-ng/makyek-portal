@@ -1,6 +1,7 @@
 import * as web from 'express-decorators';
 import _ from 'lodash';
 import utils from '@/libs/utils';
+import errors from '@/libs/errors';
 import sanitizers from '@/libs/sanitizers';
 import permissions from '@/libs/permissions';
 
@@ -11,6 +12,38 @@ export default class Handler {
   async navType(req, res, next) {
     res.locals.nav_type = 'user';
     next();
+  }
+
+  @web.get('/account')
+  @web.middleware(utils.checkPermission(permissions.PROFILE))
+  async getAccountAction(req, res) {
+    const udoc = req.credential;
+    res.render('user_account', {
+      page_title: 'My Account',
+      udoc,
+    });
+  }
+
+  @web.post('/account')
+  @web.middleware(utils.sanitizeBody({
+    oldPassword: sanitizers.nonEmptyString(),
+    newPassword: sanitizers.nonEmptyString(),
+    newPasswordRepeat: sanitizers.nonEmptyString(),
+  }))
+  @web.middleware(utils.checkPermission(permissions.PROFILE))
+  async postAccountAction(req, res) {
+    if (req.data.newPassword !== req.data.newPasswordRepeat) {
+      throw new errors.UserError('New password does not match your repeated password');
+    }
+    const udoc = req.credential;
+    const match = await udoc.testPasswordAsync(req.data.oldPassword);
+    if (!match) {
+      throw new errors.UserError('Incorrect current password');
+    }
+    await udoc.setPasswordAsync(req.data.newPassword);
+    udoc.passwordNeedsReset = false;
+    await udoc.save();
+    res.redirect(utils.url('/user/account?updated'));
   }
 
   @web.get('/profile')
