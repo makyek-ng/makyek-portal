@@ -8,6 +8,12 @@
     <div class="section side">
       <ol class="menu">
         <li class="menu__item">
+          <a href="{{ url('/user/account') }}" class="menu__link{% if page_name == 'user_account' %} active{% endif %}">
+            <span class="icon icon-user"></span>
+            My Account
+          </a>
+        </li>
+        <li class="menu__item">
           <a href="{{ url('/user/profile') }}" class="menu__link{% if page_name == 'user_profile' %} active{% endif %}">
             <span class="icon icon-account--circle"></span>
             My Profile
