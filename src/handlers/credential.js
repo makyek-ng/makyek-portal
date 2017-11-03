@@ -4,8 +4,6 @@ import sanitizers from '@/libs/sanitizers';
 import credential from '@/libs/credential';
 import permissions from '@/libs/permissions';
 
-const DIRECTORY_COOKIE = 'iPlanetDirectoryPro';
-
 @web.controller('/')
 export default class Handler {
 
@@ -16,6 +14,14 @@ export default class Handler {
     });
   }
 
+  @web.get('/login/redirect')
+  @web.middleware(utils.checkPasswordReset())
+  @web.middleware(utils.checkCompleteProfile())
+  @web.middleware(utils.checkPermission(permissions.PROFILE))
+  async getLoginRedirectAction(req, res) {
+    res.redirect(utils.url('/'));
+  }
+
   @web.post('/login')
   @web.middleware(utils.sanitizeBody({
     username: sanitizers.nonEmptyString(),
@@ -24,14 +30,13 @@ export default class Handler {
   async postLoginAction(req, res) {
     const user = await DI.models.User.authenticateAsync(req.data.username, req.data.password);
     await credential.setCredential(req, user._id);
-    res.redirect(utils.url('/'));
+    res.redirect(utils.url('/login/redirect'));
   }
 
   @web.post('/logout')
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postLogoutAction(req, res) {
     req.session.destroy();
-    res.clearCookie(DIRECTORY_COOKIE, { domain: '.tongji.edu.cn' });
     res.redirect(utils.url('/'));
   }
 
