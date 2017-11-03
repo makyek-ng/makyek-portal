@@ -116,6 +116,7 @@ export default () => {
       },
       settings: {
         compiler: '',
+        hideId: true,
       },
       passwordNeedsReset: true,
       submissionNumber: 0,
