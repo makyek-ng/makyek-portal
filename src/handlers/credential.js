@@ -30,14 +30,14 @@ export default class Handler {
   async postLoginAction(req, res) {
     const user = await DI.models.User.authenticateAsync(req.data.username, req.data.password);
     await credential.setCredential(req, user._id);
-    res.redirect(utils.url('/login/redirect'));
+    setTimeout(() => res.redirect(utils.url('/login/redirect')), 1000);
   }
 
   @web.post('/logout')
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postLogoutAction(req, res) {
     req.session.destroy();
-    res.redirect(utils.url('/'));
+    setTimeout(() => res.redirect(utils.url('/')), 1000);
   }
 
 }

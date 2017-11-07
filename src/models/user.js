@@ -193,6 +193,7 @@ export default () => {
    * Set the userName and userName_std
    */
   UserSchema.methods.setUserName = function (userName) {
+    userName = String(userName);
     this.userName = userName;
     this.userName_std = UserSchema.statics.normalizeUserName(userName);
   };
@@ -201,6 +202,7 @@ export default () => {
    * Set the password hash
    */
   UserSchema.methods.setPasswordAsync = async function (plain) {
+    plain = String(plain);
     this.hash = await bcrypt.hash(plain, 10);
   };
 
@@ -208,6 +210,7 @@ export default () => {
    * Test whether a password matches the hash
    */
   UserSchema.methods.testPasswordAsync = async function (password) {
+    password = String(password);
     try {
       await bcrypt.compare(password, this.hash);
     } catch (e) {
