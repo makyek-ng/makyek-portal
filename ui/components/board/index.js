@@ -1,4 +1,4 @@
-export default class GomokuBoard {
+export default class Board {
   constructor($dom, options) {
     this.$dom = $dom;
     this.options = options;

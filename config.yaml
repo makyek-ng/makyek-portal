@@ -36,8 +36,7 @@ base:
       moveTimeout: 5000       # 5 s
       roundTimeout: 180000    # 180 s
       memoryLimit: 367001600  # 350 MB
-      width: 16
-      height: 16
+      size: 16
   profiling:
     eventBus: false
     addMatches: false
