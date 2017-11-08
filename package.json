@@ -44,7 +44,7 @@
     "jquery-scroll-lock": "^2.2.0",
     "jquery.easing": "^1.4.1",
     "jquery.transit": "^0.9.12",
-    "libreversi": "git+https://github.com/sse2017-reversi-fun/libreversi.git",
+    "libreversi": "github:sse2017-reversi-fun/libreversi",
     "lodash": "^4.16.2",
     "method-override": "^2.3.6",
     "module-alias": "^2.0.2",

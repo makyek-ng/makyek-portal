@@ -10,15 +10,15 @@ export default class Board {
   init() {
     this.$dom.empty();
     let tBody = '';
-    for (let row = 0; row <= this.options.height + 1; ++row) {
-      let isHeadingRow = (row === 0 || row === this.options.height + 1);
+    for (let row = 0; row <= this.options.size + 1; ++row) {
+      let isHeadingRow = (row === 0 || row === this.options.size + 1);
       tBody += '<tr>';
-      for (let col = 0; col <= this.options.width + 1; ++col) {
-        let isHeadingCol = (col === 0 || col === this.options.width + 1);
+      for (let col = 0; col <= this.options.size + 1; ++col) {
+        let isHeadingCol = (col === 0 || col === this.options.size + 1);
         if (isHeadingRow || isHeadingCol) {
           tBody += '<td class="heading">';
         } else {
-          tBody += `<td class="cell pos-${col - 1}-${row - 1}">`;
+          tBody += `<td class="cell pos-${row - 1}-${col - 1}">`;
         }
         tBody += '<div class="content" layout="row center-center">';
         if (isHeadingRow && !isHeadingCol) {
@@ -26,7 +26,7 @@ export default class Board {
         } else if (!isHeadingRow && isHeadingCol) {
           tBody += String(row - 1);
         } else if (!isHeadingRow && !isHeadingCol) {
-          tBody += `<div class="stone pos-${col - 1}-${row - 1}" data-field="0" data-order="" layout="row center-center"></div>`;
+          tBody += `<div class="stone pos-${row - 1}-${col - 1}" data-field="0" data-order="" layout="row center-center"></div>`;
         }
         tBody += '</div></td>';
       }
@@ -36,10 +36,10 @@ export default class Board {
 
     const $cells = this.$dom.find('.stone');
     let idx = 0;
-    for (let row = 0; row < this.options.height; ++row) {
+    for (let row = 0; row < this.options.size; ++row) {
       const $cRow = [];
       const bRow = [];
-      for (let col = 0; col < this.options.width; ++col) {
+      for (let col = 0; col < this.options.size; ++col) {
         $cRow.push($cells.eq(idx));
         bRow.push(0);
         idx++;
