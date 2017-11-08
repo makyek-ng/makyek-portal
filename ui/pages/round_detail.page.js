@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Clipboard from 'clipboard';
 import 'jquery-scroll-lock';
+import reversi from 'libreversi';
 
 import { NamedPage } from '../misc/PageLoader';
 import Board from '../components/board';
@@ -57,11 +58,10 @@ const page = new NamedPage('round_detail', () => {
           return null;
         }
       }));
-
       roundBoard = new Board($('#roundStepBoard').empty(), roundSummary.roundConfig);
       roundMaxSteps = stepGetMaxSteps();
       $('[name="step-total"]').text(roundMaxSteps);
-      stepJumpTo(0, true);
+      stepJumpTo(0);
       $('[name="step-toolbar"]').show();
     } catch (err) {
       console.log(err);
@@ -86,7 +86,7 @@ const page = new NamedPage('round_detail', () => {
     return steps;
   }
 
-  function stepJumpTo(step, updateOrder = false) {
+  function stepJumpTo(step) {
     if (step < 0 || step > roundMaxSteps || isNaN(step)) {
       step = roundCurrentStep;
     }
@@ -99,15 +99,15 @@ const page = new NamedPage('round_detail', () => {
       }
       if (log.data.action === 'sendRequest') {
         roundStdins[log.data.id].push(log.data.data);
-      } else if (log.data.action === 'clearBoard' || log.data.action === 'place') {
+      } else if (log.data.action === 'createBoard' || log.data.action === 'place') {
         if (currentStep > step) {
           return false;
         }
-        if (log.data.action === 'clearBoard') {
-          board = _.cloneDeep(log.data.board);
+        if (log.data.action === 'createBoard') {
+          board = new reversi.Board(log.data.size);
           currentStep++;
         } else if (log.data.action === 'place') {
-          board[log.data.position[1]][log.data.position[0]] = log.data.field;
+          board.placeAt(log.data.field, log.data.position[0], log.data.position[1]);
           lastPlace = _.clone(log.data.position);
           currentStep++;
         }
@@ -121,7 +121,7 @@ const page = new NamedPage('round_detail', () => {
     if (lastPlace) {
       $(`#roundStepBoard .cell.pos-${lastPlace[0]}-${lastPlace[1]}`).addClass('active');
     }
-    roundBoard.setBoard(board, updateOrder ? roundSummary.boardOrder : null);
+    roundBoard.setBoard(board.board, board.order);
   }
 
   function stepPrev() {
