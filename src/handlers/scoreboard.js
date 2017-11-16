@@ -12,6 +12,7 @@ export default class Handler {
   }
 
   @web.get('/')
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.VIEW_SCOREBOARD))
   async getScoreboardAction(req, res) {
     const [sbdoc, cacheAt] = await DI.models.Scoreboard.calculate();

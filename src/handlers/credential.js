@@ -15,8 +15,8 @@ export default class Handler {
   }
 
   @web.get('/login/redirect')
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
-  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async getLoginRedirectAction(req, res) {
     res.redirect(utils.url('/'));

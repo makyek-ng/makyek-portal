@@ -56,7 +56,7 @@
             </tr>
           </thead>
           <tbody>
-          {%- for rdoc in sbdoc %}{% if not rdoc.udoc.profile.initial %}
+          {%- for rdoc in sbdoc %}{% if not rdoc.udoc.initial %}
             <tr>
               <td class="col--rank">#{{ rdoc.rank }}</td>
               <td class="col--user"><div layout="row center-start">

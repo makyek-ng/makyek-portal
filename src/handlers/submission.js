@@ -131,6 +131,7 @@ export default class Handler {
   @web.middleware(utils.sanitizeParam({
     page: sanitizers.pageNumber().optional(1),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.VIEW_ALL_SUBMISSIONS))
   async getRunningSubmissionsAction(req, res) {
     const [ sdocs, pages ] = await utils.pagination(
@@ -151,6 +152,7 @@ export default class Handler {
   @web.middleware(utils.sanitizeParam({
     page: sanitizers.pageNumber().optional(1),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.VIEW_ALL_SUBMISSIONS))
   async getAllSubmissionsAction(req, res) {
     const [ sdocs, pages ] = await utils.pagination(
@@ -171,6 +173,7 @@ export default class Handler {
   @web.middleware(utils.sanitizeParam({
     page: sanitizers.pageNumber().optional(1),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.VIEW_OWN_SUBMISSIONS))
   async getMySubmissionsAction(req, res) {
     const [ sdocs, pages ] = await utils.pagination(
@@ -192,6 +195,7 @@ export default class Handler {
     uid: sanitizers.objectId(),
     page: sanitizers.pageNumber().optional(1),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.VIEW_ALL_SUBMISSIONS))
   async getUserSubmissionsAction(req, res) {
     const udoc = await DI.models.User.getUserObjectByIdAsync(req.data.uid);
@@ -211,8 +215,8 @@ export default class Handler {
   }
 
   @web.get('/create')
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
-  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.CREATE_SUBMISSION))
   async getSubmissionCreateAction(req, res) {
     const [hotStatus, nextSubmitRemaining] = await DI.models.Submission.isUserAllowedToSubmitAsync(req.credential._id);
@@ -229,8 +233,8 @@ export default class Handler {
     code: sanitizers.nonEmptyString(),
     compiler: sanitizers.nonEmptyString().in(_.keys(DI.config.compile.display)),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
-  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.CREATE_SUBMISSION))
   async postSubmissionCreateAction(req, res) {
     const sdoc = await DI.models.Submission.createSubmissionAsync(
@@ -246,6 +250,7 @@ export default class Handler {
     id: sanitizers.objectId(),
     page: sanitizers.pageNumber().optional(1),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.VIEW_ANY_SUBMISSION))
   async getSubmissionDetailAction(req, res) {
     const sdoc = await DI.models.Submission.getSubmissionObjectByIdAsync(req.data.id);

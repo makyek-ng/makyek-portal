@@ -12,9 +12,12 @@ function getGuestUser() {
       userName_std: 'guest',
       role: 'guest',
       profile: {
+        realName: 'guest',
+        studentId: '0000000',
         displayName: 'guest',
-        initial: true,
       },
+      initial: false,
+      passwordNeedsReset: false,
       submissionNumber: 0,
     });
   }

@@ -20,14 +20,13 @@ class DedupWorkerQueue {
     setTimeout(() => {
       // if there are jobs with same id in the queue,
       // remove them (except for the last one)
-      let lastJob = true, jobsRemoved = 0;
+      let lastJob = true;
       for (var i = this.queue.jobs.length - 1; i >= 0; --i) {
         if (this.queue.jobs[i]._id === queueItem._id) {
           if (lastJob) {
             lastJob = false;
           } else {
             this.queue.jobs.splice(i, 1);
-            jobsRemoved++;
           }
         }
       }
@@ -84,6 +83,18 @@ utils.static_url = (s) => {
   return `${DI.config.cdnPrefix}${s}`;
 };
 
+utils.checkWelcome = () => (req, res, next) => {
+  if (!req.credential.hasPermission(permissions.PROFILE)) {
+    next();
+    return;
+  }
+  if (req.credential.initial) {
+    res.redirect(utils.url('/user/welcome'));
+    return;
+  }
+  next();
+};
+
 utils.checkPasswordReset = () => (req, res, next) => {
   if (!req.credential.hasPermission(permissions.PROFILE)) {
     next();
@@ -91,18 +102,6 @@ utils.checkPasswordReset = () => (req, res, next) => {
   }
   if (req.credential.passwordNeedsReset) {
     res.redirect(utils.url('/user/account'));
-    return;
-  }
-  next();
-};
-
-utils.checkCompleteProfile = () => (req, res, next) => {
-  if (!req.credential.hasPermission(permissions.PROFILE)) {
-    next();
-    return;
-  }
-  if (req.credential.profile.initial) {
-    res.redirect(utils.url('/user/profile'));
     return;
   }
   next();

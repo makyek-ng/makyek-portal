@@ -14,7 +14,38 @@ export default class Handler {
     next();
   }
 
+  @web.get('/welcome')
+  @web.middleware(utils.checkPermission(permissions.PROFILE))
+  async getWelcomeAction(req, res) {
+    const udoc = req.credential;
+    res.render('user_welcome', {
+      page_title: 'Welcome',
+      udoc,
+    });
+  }
+
+  @web.post('/welcome')
+  @web.middleware(utils.sanitizeBody({
+    newPassword: sanitizers.nonEmptyString(),
+    newPasswordRepeat: sanitizers.nonEmptyString(),
+    displayName: sanitizers.nonEmptyString(),
+  }))
+  @web.middleware(utils.checkPermission(permissions.PROFILE))
+  async postWelcomeAction(req, res) {
+    if (req.data.newPassword !== req.data.newPasswordRepeat) {
+      throw new errors.UserError('New password does not match your repeated password');
+    }
+    const udoc = req.credential;
+    await udoc.setPasswordAsync(req.data.newPassword);
+    udoc.passwordNeedsReset = false;
+    udoc.profile.displayName = req.data.displayName;
+    udoc.initial = false;
+    await udoc.save();
+    res.redirect(utils.url('/'));
+  }
+
   @web.get('/account')
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async getAccountAction(req, res) {
     const udoc = req.credential;
@@ -30,6 +61,7 @@ export default class Handler {
     newPassword: sanitizers.nonEmptyString(),
     newPasswordRepeat: sanitizers.nonEmptyString(),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postAccountAction(req, res) {
     if (req.data.newPassword !== req.data.newPasswordRepeat) {
@@ -47,6 +79,7 @@ export default class Handler {
   }
 
   @web.get('/profile')
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async getUserProfileAction(req, res) {
@@ -59,22 +92,21 @@ export default class Handler {
 
   @web.post('/profile')
   @web.middleware(utils.sanitizeBody({
-    realName: sanitizers.nonEmptyString(),
     displayName: sanitizers.nonEmptyString(),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postUserProfileAction(req, res) {
     const udoc = req.credential;
     _.assign(udoc.profile, req.data);
-    udoc.profile.initial = false;
     await udoc.save();
     res.redirect(utils.url('/user/profile?updated'));
   }
 
   @web.get('/settings')
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
-  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async getUserSettingsAction(req, res) {
     const udoc = req.credential;
@@ -89,8 +121,8 @@ export default class Handler {
     compiler: sanitizers.nonEmptyString().in(_.keys(DI.config.compile.display)),
     hideId: sanitizers.bool(),
   }))
+  @web.middleware(utils.checkWelcome())
   @web.middleware(utils.checkPasswordReset())
-  @web.middleware(utils.checkCompleteProfile())
   @web.middleware(utils.checkPermission(permissions.PROFILE))
   async postUserSettingsAction(req, res) {
     const udoc = req.credential;
