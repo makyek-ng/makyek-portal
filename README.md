@@ -1,7 +1,7 @@
 ## Add User
 
 ```bash
-npm run cli -- DI.models.User.createUserAsync {username} {password} {student_id} {role}
+npm run cli -- DI.models.User.createUserAsync {username} {password} {student_id} {real_name} {role}
 ```
 
 Roles can be: `admin` / `mod` / `student`
