@@ -10,7 +10,7 @@
       <li><a href="{{ url('/user/profile') }}" class="nav__item{% if nav_type == 'user' %} active{% endif %}">
       {%- if req.credential.profile.studentId %}
         {{ req.credential.profile.studentId }}
-        {%- if not req.credential.profile.initial %}
+        {%- if not req.credential.initial %}
         ({{ req.credential.profile.displayName }})
         {%- endif %}
         {%- if req.credential.role !== 'string' %}

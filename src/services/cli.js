@@ -10,7 +10,7 @@ async function main() {
   if (!_.isFunction(func)) {
     throw new Error(`"${funcName}" is not a callable function`);
   }
-  const ret = await func(...args);
+  const ret = await func(...(args.map(arg => String(arg))));
   console.log(ret);
 }
 

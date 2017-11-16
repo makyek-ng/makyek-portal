@@ -18,8 +18,8 @@ export default () => {
       realName: String,
       studentId: String,
       displayName: String,
-      initial: Boolean,
     },
+    initial: Boolean,
     passwordNeedsReset: Boolean,
     submissionNumber: Number,
   }, {
@@ -34,7 +34,7 @@ export default () => {
    * @return {String}
    */
   UserSchema.statics.normalizeUserName = function (userName) {
-    return String(userName).toLowerCase().trim();
+    return userName.toLowerCase().trim();
   };
 
   /**
@@ -99,7 +99,7 @@ export default () => {
    * Create a new account
    * @return {User} Newly created user object
    */
-  UserSchema.statics.createUserAsync = async function (userName, password, studentId, role = 'student') {
+  UserSchema.statics.createUserAsync = async function (userName, password, studentId, realName, role = 'student') {
     if (await User.getUserObjectByUserNameAsync(userName, false) !== null) {
       throw new errors.UserError('Username already taken');
     }
@@ -109,15 +109,15 @@ export default () => {
     const newUser = new User({
       role,
       profile: {
-        realName: '',
+        realName,
         studentId,
         displayName: userName,
-        initial: true,
       },
       settings: {
         compiler: '',
         hideId: true,
       },
+      initial: true,
       passwordNeedsReset: true,
       submissionNumber: 0,
     });
@@ -193,7 +193,6 @@ export default () => {
    * Set the userName and userName_std
    */
   UserSchema.methods.setUserName = function (userName) {
-    userName = String(userName);
     this.userName = userName;
     this.userName_std = UserSchema.statics.normalizeUserName(userName);
   };
@@ -202,7 +201,6 @@ export default () => {
    * Set the password hash
    */
   UserSchema.methods.setPasswordAsync = async function (plain) {
-    plain = String(plain);
     this.hash = await bcrypt.hash(plain, 10);
   };
 
@@ -210,7 +208,6 @@ export default () => {
    * Test whether a password matches the hash
    */
   UserSchema.methods.testPasswordAsync = async function (password) {
-    password = String(password);
     try {
       await bcrypt.compare(password, this.hash);
     } catch (e) {
