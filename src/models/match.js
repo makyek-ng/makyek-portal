@@ -406,15 +406,14 @@ export default () => {
   /**
    * Get all pending, running or system_error matches
    */
-  MatchSchema.statics.getPendingMatchesAsync = async function (includePending = true) {
-    const $in = [Match.STATUS_RUNNING, Match.STATUS_SYSTEM_ERROR];
-    if (includePending) {
-      $in.push(Match.STATUS_PENDING);
+  MatchSchema.statics.getPendingMatchesAsync = async function (includePending = true, maxId = null) {
+    const query = {};
+    query['status'] = { $in: [Match.STATUS_RUNNING, Match.STATUS_SYSTEM_ERROR, Match.STATUS_PENDING] };
+    if (maxId) {
+      query['_id'] = { $lte: maxId };
     }
     return await Match
-      .find({
-        status: { $in },
-      })
+      .find(query)
       .sort({ _id: -1 })
       .exec();
   };

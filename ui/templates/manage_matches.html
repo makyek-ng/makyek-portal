@@ -4,7 +4,7 @@
   <div class="section__header">
     <h1 class="section__title">Pending Matches</h1>
     <div class="section__tools">
-      <form action="{{ url('/manage/matches/pending') }}" method="post">
+      <form action="{{ url('/manage/matches/pending/all') }}" method="post">
         <input type="hidden" name="_csrf" value="{{ ui_context.csrfToken }}">
         <input type="submit" value="Rejudge All" class="button">
       </form>
@@ -17,6 +17,7 @@
         <col class="col--create-at">
         <col class="col--update-at">
         <col class="col--rounds">
+        <col class="col--action">
       </colgroup>
       <thead>
         <tr>
@@ -24,6 +25,7 @@
           <th class="col--create-at">Create At</th>
           <th class="col--update-at">Update At</th>
           <th class="col--rounds">Rounds</th>
+          <th class="col--action">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -46,6 +48,12 @@
               <span>{{ status }}: {{ rounds.length }}</span>
               /
             {%- endfor %}
+          </td>
+          <td class="col--action">
+            <form action="{{ url('/manage/matches/pending/{0}', false, [mdoc._id]) }}" method="post">
+              <input type="hidden" name="_csrf" value="{{ ui_context.csrfToken }}">
+              <button type="submit" class="typo-a">Rejudge Self &amp; Below</button>
+            </form>
           </td>
         </tr>
       {%- endfor %}

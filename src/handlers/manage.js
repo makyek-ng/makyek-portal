@@ -21,10 +21,17 @@ export default class Handler {
     });
   }
 
-  @web.post('/matches/pending')
+  @web.post('/matches/pending/:maxId')
+  @web.middleware(utils.sanitizeParam({
+    maxId: sanitizers.nonEmptyString(),
+  }))
   @web.middleware(utils.checkPermission(permissions.VIEW_MANAGE_PORTAL))
   async postRejudgePendingMatches(req, res) {
-    const mdocs = await DI.models.Match.getPendingMatchesAsync();
+    let maxId = req.data.maxId;
+    if (maxId === 'all') {
+      maxId = null;
+    }
+    const mdocs = await DI.models.Match.getPendingMatchesAsync(maxId);
     // rejudge from distant time
     mdocs.reverse();
     for (const mdoc of mdocs) {
