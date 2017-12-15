@@ -406,7 +406,7 @@ export default () => {
   /**
    * Get all pending, running or system_error matches
    */
-  MatchSchema.statics.getPendingMatchesAsync = async function (includePending = true, maxId = null) {
+  MatchSchema.statics.getPendingMatchesAsync = async function (maxId = null) {
     const query = {};
     query['status'] = { $in: [Match.STATUS_RUNNING, Match.STATUS_SYSTEM_ERROR, Match.STATUS_PENDING] };
     if (maxId) {
