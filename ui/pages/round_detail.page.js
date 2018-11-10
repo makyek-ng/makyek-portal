@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Clipboard from 'clipboard';
 import 'jquery-scroll-lock';
-import reversi from 'libreversi';
+import makyek from 'libreversi';
 
 import { NamedPage } from '../misc/PageLoader';
 import Board from '../components/board';
@@ -26,7 +26,7 @@ const page = new NamedPage('round_detail', () => {
     $('#roundText').text(`Exit caused by: ${roundSummary.exitCausedBy}`);
     if (roundSummary.currentBoard) {
       const board = new Board($('#roundBoard'), roundSummary.roundConfig);
-      board.setBoard(roundSummary.currentBoard, roundSummary.boardOrder);
+      board.setBoard(roundSummary.currentBoard);
     }
   }
 
@@ -92,6 +92,7 @@ const page = new NamedPage('round_detail', () => {
     }
     let board = null, currentStep = 0;
     let lastPlace = null;
+    let lastOption = null;
     roundStdins = [[], []];
     _.forEach(roundLogs, log => {
       if (log.type !== 'debug') {
@@ -104,11 +105,12 @@ const page = new NamedPage('round_detail', () => {
           return false;
         }
         if (log.data.action === 'createBoard') {
-          board = new reversi.Board(log.data.size);
+          board = new makyek.Board(log.data.size);
           currentStep++;
         } else if (log.data.action === 'place') {
-          board.placeAt(log.data.field, log.data.position[0], log.data.position[1]);
+          board.placeAt(log.data.field, log.data.position[0], log.data.position[1], log.data.option);
           lastPlace = _.clone(log.data.position);
+          lastOption = log.data.option;
           currentStep++;
         }
       }
@@ -118,8 +120,11 @@ const page = new NamedPage('round_detail', () => {
     $('[name="step-prev"]').prop('disabled', step <= 0);
     $('[name="step-next"]').prop('disabled', step >= roundMaxSteps);
     $('#roundStepBoard .cell.active').removeClass('active');
-    if (lastPlace) {
+    $('#roundStepBoard .cell.after-active').removeClass('after-active');
+    if (lastPlace && lastOption !== null) {
       $(`#roundStepBoard .cell.pos-${lastPlace[0]}-${lastPlace[1]}`).addClass('active');
+      const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      $(`#roundStepBoard .cell.pos-${lastPlace[0] + dirs[lastOption][0]}-${lastPlace[1] + dirs[lastOption][1]}`).addClass('after-active');
     }
     roundBoard.setBoard(board.board, board.order);
   }
