@@ -49,16 +49,13 @@ export default class Board {
     }
   }
 
-  setBoard(boardMap, orderMap = null) {
+  setBoard(boardMap) {
     boardMap.forEach((row, y) => {
       row.forEach((v, x) => {
         const $cell = this.$cells[y][x];
         if (this.board[y][x] !== v) {
           $cell.attr('data-field', v);
           this.board[y][x] = v;
-        }
-        if (orderMap) {
-          $cell.attr('data-order', orderMap[y][x]);
         }
       });
     });
