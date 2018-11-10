@@ -2,8 +2,8 @@ base:
   db: mongodb://localhost/reversi-portal
   redis: redis://localhost
   secret: your_secret
-  port: 80
-  host: 127.0.0.1:80
+  port: 8888
+  host: 127.0.0.1:8888
   cspReportUrl: /
   urlPrefix: ''
   cdnPrefix: ''
@@ -30,10 +30,11 @@ base:
       maxExecQuota: 36000000  # 10 hours
   match:
     rules:
-      moveTimeout: 5000       # 5 s
+      moveTimeout: 1000       # 5 s
       roundTimeout: 180000    # 180 s
       memoryLimit: 367001600  # 350 MB
       size: 16
+      roundLlimit: 120
   profiling:
     eventBus: false
     addMatches: false
