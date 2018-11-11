@@ -123,7 +123,7 @@ const page = new NamedPage('round_detail', () => {
     $('#roundStepBoard .cell.after-active').removeClass('after-active');
     if (lastPlace && lastOption !== null) {
       $(`#roundStepBoard .cell.pos-${lastPlace[0]}-${lastPlace[1]}`).addClass('active');
-      const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+      const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
       $(`#roundStepBoard .cell.pos-${lastPlace[0] + dirs[lastOption][0]}-${lastPlace[1] + dirs[lastOption][1]}`).addClass('after-active');
     }
     roundBoard.setBoard(board.board, board.order);
