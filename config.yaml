@@ -3,7 +3,7 @@ base:
   redis: redis://localhost
   secret: your_secret
   port: 8888
-  host: 127.0.0.1:8888
+  host: 0.0.0.0:8888
   cspReportUrl: /
   urlPrefix: ''
   cdnPrefix: ''
@@ -19,8 +19,6 @@ base:
     display:
       gcc51c11:     TDM-GCC 5.1.0 (Release, 32-bit, with C11)
       gcc49c11:     TDM-GCC 4.9.2 (Release, 32-bit, with C11)
-      msvc2017:     Visual C++ 2017 (Release, x86)
-      llvm40:       LLVM 4.0 (Xcode 9.0, i386)
     limits:
       sizeOfCode: 1048576     # 1 MB
       sizeOfBin: 1048576      # 1 MB
