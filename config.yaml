@@ -3,7 +3,7 @@ base:
   redis: redis://localhost
   secret: your_secret
   port: 8888
-  host: 0.0.0.0:8888
+  host: 10.60.45.52:8888
   cspReportUrl: /
   urlPrefix: ''
   cdnPrefix: ''
