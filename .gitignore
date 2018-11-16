@@ -51,7 +51,7 @@ config.production.yaml
 
 # Compiled front-end
 ui/misc/.iconfont
-.uibuild/
+# .uibuild/
 
 # Sublime Project
 *.sublime-*
