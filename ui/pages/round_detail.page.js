@@ -105,7 +105,7 @@ const page = new NamedPage('round_detail', () => {
           return false;
         }
         if (log.data.action === 'createBoard') {
-          board = new makyek.Board(log.data.size);
+          board = new makyek.Board();
           currentStep++;
         } else if (log.data.action === 'place') {
           board.placeAt(log.data.field, log.data.position[0], log.data.position[1], log.data.option);
