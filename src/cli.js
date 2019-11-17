@@ -25,7 +25,8 @@ global.__projectRoot = path.join(__dirname, '..');
 
   const application = new FrameworkEntry({
     env: envProfile,
-    config: ['config.yaml', 'config.debug.yaml', 'config.production.yaml'],
+    // config: ['config.yaml', 'config.debug.yaml', 'config.production.yaml'],
+    config: ['config.yaml'],
     services: 'services_cli.yaml',
     loadModule: (path) => require(`${__codeRoot}/services/${path}`).default,
     shutdownModule: (path) => require(`${__codeRoot}/services/${path}`).shutdown,
