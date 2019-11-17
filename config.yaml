@@ -1,9 +1,9 @@
 base:
   db: mongodb://localhost/reversi-portal
   redis: redis://localhost
-  secret: your_secret
+  secret: aaaaaaa
   port: 8888
-  host: 10.60.45.52:8888
+  host: 10.60.45.51:8888
   cspReportUrl: /
   urlPrefix: ''
   cdnPrefix: ''
@@ -17,8 +17,7 @@ base:
       password: bar
   compile:
     display:
-      gcc51c11:     TDM-GCC 5.1.0 (Release, 32-bit, with C11)
-      gcc49c11:     TDM-GCC 4.9.2 (Release, 32-bit, with C11)
+      gcc51c11:     TDM-GCC 5.1.0 (Release, 64-bit, with C11)
     limits:
       sizeOfCode: 1048576     # 1 MB
       sizeOfBin: 1048576      # 1 MB
@@ -40,9 +39,9 @@ base:
     vhosts:
       /:
         connection:
-          hostname: localhost
-          user: guest
-          password: guest
+          hostname: 10.60.43.51
+          user: 519admin
+          password: hhxxttxs519.
         queues:
           - reversi_compile
           - reversi_judge

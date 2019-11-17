@@ -35006,7 +35006,6 @@
 	 */
 	MakyekBoard.prototype.canPlaceAt = function (side, x, y, option) {
 	  validation.checkPlayerSide(side);
-	  validation.checkPlayerOption(option);
 	
 	  if (this.board[x][y] !== side) {
 	    return false;
@@ -35029,7 +35028,6 @@
 	 */
 	MakyekBoard.prototype.placeAt = function (side, x, y, option) {
 	  validation.checkPlayerSide(side);
-	  validation.checkPlayerOption(option);
 	
 	  const newX = x + DIRECTIONS[option][0];
 	  const newY = y + DIRECTIONS[option][1];
@@ -35092,6 +35090,14 @@
 	  STATE_EMPTY: constant.STATE_EMPTY,
 	  STATE_BLACK: constant.STATE_BLACK,
 	  STATE_WHITE: constant.STATE_WHITE,
+	  OPTION_UP: constant.OPTION_UP,
+	  OPTION_DOWN: constant.OPTION_DOWN,
+	  OPTION_LEFT: constant.OPTION_LEFT,
+	  OPTION_RIGHT: constant.OPTION_RIGHT,
+	  OPTION_UP_LEFT: constant.OPTION_UP_LEFT,
+	  OPTION_UP_RIGHT: constant.OPTION_UP_RIGHT,
+	  OPTION_DOWN_LEFT: constant.OPTION_DOWN_LEFT,
+	  OPTION_DOWN_RIGHT: constant.OPTION_DOWN_RIGHT,
 	};
 
 
@@ -35125,15 +35131,6 @@
 	  checkPlayerSide(side) {
 	    if (side !== constant.STATE_BLACK && side !== constant.STATE_WHITE) {
 	      throw new Error('invalid playerSide');
-	    }
-	  },
-	
-	  checkPlayerOption(option) {
-	    if (option !== constant.OPTION_UP && option !== constant.OPTION_DOWN &&
-	      option !== constant.OPTION_LEFT && option !== constant.OPTION_RIGHT &&
-	      option !== constant.OPTION_UP_LEFT && option !== constant.OPTION_UP_RIGHT &&
-	      option !== constant.OPTION_DOWN_LEFT && option !== constant.OPTION_DOWN_RIGHT) {
-	      throw new Error('invalid playerOption');
 	    }
 	  },
 	};
