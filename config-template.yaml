@@ -1,9 +1,9 @@
 base:
   db: mongodb://localhost/reversi-portal
   redis: redis://localhost
-  secret: aaaaaaa
+  secret: arbitrary-secret
   port: 8888
-  host: 10.60.45.51:8888
+  host: localhost
   cspReportUrl: /
   urlPrefix: ''
   cdnPrefix: ''
@@ -27,11 +27,11 @@ base:
       maxExecQuota: 36000000  # 10 hours
   match:
     rules:
-      moveTimeout: 1000       # 5 s
-      roundTimeout: 180000    # 180 s
+      moveTimeout: 2000       # 2 s
+      roundTimeout: 90000    # 90 s
       memoryLimit: 367001600  # 350 MB
       size: 12
-      roundLlimit: 120
+      roundLlimit: 60
   profiling:
     eventBus: false
     addMatches: false
@@ -39,9 +39,9 @@ base:
     vhosts:
       /:
         connection:
-          hostname: 10.60.43.51
-          user: 519admin
-          password: hhxxttxs519.
+          hostname: localhost
+          user: guest
+          password: guest
         queues:
           - reversi_compile
           - reversi_judge
