@@ -1,3 +1,16 @@
+## Deploy
+
+1. copy `config-template.yaml` to `config.yaml`
+2. change sensitive info. in config.yaml
+3. run the following code in terminal.
+
+```bash
+npm dep-install
+npm build:ui
+npm build:server
+npm start
+```
+
 ## Add User
 
 ```bash
