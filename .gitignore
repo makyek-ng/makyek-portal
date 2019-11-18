@@ -66,4 +66,4 @@ sftp-config.json
 .idea
 
 *.rdb
-pidfile.txt
+*.txt
