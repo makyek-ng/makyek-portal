@@ -95,6 +95,7 @@ const page = new NamedPage('round_detail', () => {
     let lastOption = null;
     roundStdins = [[], []];
     _.forEach(roundLogs, log => {
+      console.log(log);
       if (log.type !== 'debug') {
         return;
       }
