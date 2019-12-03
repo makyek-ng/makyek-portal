@@ -109,13 +109,13 @@ const page = new NamedPage('round_detail', () => {
           currentStep++;
         } else if (log.data.action === 'place') {
           // position goes like this: N x0,y0 x1,y1 ...
-          opertaion = log.data.position.split(' ');
-          for (var i = 0; i < opertaion.length; i++) {
-            if (i != 0 && i != opertaion.length - 1) {
-              op0 = opertaion[i].split(',');
+          var operation = log.data.position.split(' ');
+          for (var i = 0; i < operation.length; i++) {
+            if (i != 0 && i != operation.length - 1) {
+              op0 = operation[i].split(',');
               x0 = op0[0];
               y0 = op0[1];
-              op1 = opertaion[i + 1].split(',');
+              op1 = operation[i + 1].split(',');
               x1 = op1[0];
               y1 = op1[1];
               board.placeAt(log.data.field, x0, y0, x1, y1);
