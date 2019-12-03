@@ -95,7 +95,6 @@ const page = new NamedPage('round_detail', () => {
     let lastOption = null;
     roundStdins = [[], []];
     _.forEach(roundLogs, log => {
-      console.log(log);
       if (log.type !== 'debug') {
         return;
       }
@@ -109,7 +108,20 @@ const page = new NamedPage('round_detail', () => {
           board = new makyek.Board();
           currentStep++;
         } else if (log.data.action === 'place') {
-          board.placeAt(log.data.field, log.data.position[0], log.data.position[1], log.data.option);
+          // position goes like this: N x0,y0 x1,y1 ...
+          opertaion = log.data.position.split(' ');
+          for (var i = 0; i < opertaion.length; i++) {
+            if (i != 0 && i != opertaion.length - 1) {
+              op0 = opertaion[i].split(',');
+              x0 = op0[0];
+              y0 = op0[1];
+              op1 = opertaion[i + 1].split(',');
+              x1 = op1[0];
+              y1 = op1[1];
+              board.placeAt(log.data.field, x0, y0, x1, y1);
+            }
+          }
+          // board.placeAt(log.data.field, log.data.position[0], log.data.position[1], log.data.option);
           lastPlace = _.clone(log.data.position);
           lastOption = log.data.option;
           currentStep++;
