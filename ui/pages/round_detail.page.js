@@ -52,7 +52,7 @@ const page = new NamedPage('round_detail', () => {
       $('#roundStepBoard').show();
       const logs = await util.get(location.pathname.replace(/\/$/, '') + '/logs', {}, 'text');
       roundLogs = _.filter(logs.split('\n').map(line => {
-        if (line.length > 0) {
+        if (line.length > 0 && line[0] == '{') {
           return JSON.parse(line);
         } else {
           return null;
