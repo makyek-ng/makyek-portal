@@ -30,7 +30,7 @@ base:
       moveTimeout: 2000       # 2 s
       roundTimeout: 90000    # 90 s
       memoryLimit: 367001600  # 350 MB
-      size: 12
+      size: 8
       roundLlimit: 60
   profiling:
     eventBus: false
