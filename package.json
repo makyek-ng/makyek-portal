@@ -45,7 +45,7 @@
     "jquery-scroll-lock": "^2.2.0",
     "jquery.easing": "^1.4.1",
     "jquery.transit": "^0.9.12",
-    "libreversi": "git+ssh://git@github.com/sse2018-makyek-fun/libmakyek.git",
+    "libreversi": "git+https://github.com/sse2018-makyek-fun/libmakyek.git",
     "lodash": "^4.16.2",
     "method-override": "^2.3.6",
     "module-alias": "^2.0.2",

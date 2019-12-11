@@ -40,7 +40,7 @@
     height: 80%
     border-radius: 50%
 
-    &[data-field="1"], &[data-field="2"]
+    &[data-field="1"], &[data-field="2"], &[data-field="4"], &[data-field="5"]
       &:before
         font-size: rem(10px)
         content: attr(data-order)
@@ -48,7 +48,19 @@
     &[data-field="1"]
       background: #444
       color: #FFF
+    
+    &[data-field="4"]
+      background: #444
+      color: #FFF
+      border-style:solid
+      border-color: green
 
     &[data-field="2"]
       background: #DDD
       color: #222
+    
+    &[data-field="5"]
+      background: #DDD
+      color: #222
+      border-style:solid
+      border-color: green

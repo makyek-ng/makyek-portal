@@ -118,7 +118,10 @@ const page = new NamedPage('round_detail', () => {
               var op1 = operation[i + 1].split(',');
               var x1 = op1[0];
               var y1 = op1[1];
-              board.placeAt(log.data.field, x0, y0, x1, y1);
+              if (i == operation.length - 2)
+                board.placeAt(log.data.field, x0, y0, x1, y1, true);
+              else
+                board.placeAt(log.data.field, x0, y0, x1, y1, false);
             }
           }
           // board.placeAt(log.data.field, log.data.position[0], log.data.position[1], log.data.option);
@@ -134,11 +137,12 @@ const page = new NamedPage('round_detail', () => {
     $('[name="step-next"]').prop('disabled', step >= roundMaxSteps);
     $('#roundStepBoard .cell.active').removeClass('active');
     $('#roundStepBoard .cell.after-active').removeClass('after-active');
-    if (lastPlace && lastOption !== null) {
-      $(`#roundStepBoard .cell.pos-${lastPlace[0]}-${lastPlace[1]}`).addClass('active');
-      const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
-      $(`#roundStepBoard .cell.pos-${lastPlace[0] + dirs[lastOption][0]}-${lastPlace[1] + dirs[lastOption][1]}`).addClass('after-active');
-    }
+    // if (lastPlace && lastOption !== null) {
+    //   $(`#roundStepBoard .cell.pos-${lastPlace[0]}-${lastPlace[1]}`).addClass('active');
+    //   const dirs = [[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [-1, 1], [1, -1], [1, 1]];
+    //   $(`#roundStepBoard .cell.pos-${lastPlace[0] + dirs[lastOption][0]}-${lastPlace[1] + dirs[lastOption][1]}`).addClass('after-active');
+    // }
+    console.log(board.board);
     roundBoard.setBoard(board.board, board.order);
   }
 

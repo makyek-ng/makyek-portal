@@ -50,10 +50,10 @@ export default class Board {
   }
 
   setBoard(boardMap) {
+    console.log(boardMap);
     boardMap.forEach((row, y) => {
       row.forEach((v, x) => {
-        console.log(y);
-        console.log(x);
+        console.log(v);
         const $cell = this.$cells[y][x];
         if (this.board[y][x] !== v) {
           $cell.attr('data-field', v);
