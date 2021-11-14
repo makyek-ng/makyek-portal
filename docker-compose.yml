@@ -21,5 +21,18 @@ services:
       - MONGO_USERNAME=makyek
       - MONGO_PASSWORD=makyek
     volumes:
-      - ./.db/mongo_data:/data/db
+      - ./.persistence/db/mongo_data:/data/db
       - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+  rabbit:
+    image: rabbitmq:3.7-management
+    hostname: rabbit
+    container_name: "rabbitmq-container"
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=123456
+    volumes:
+      - ./.persistence/rabbit-mq/data:/var/lib/rabbitmq

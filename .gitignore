@@ -68,7 +68,6 @@ sftp-config.json
 
 *.rdb
 *.txt
-config.yaml
 
 # for mongodb
-.db
+.persistence
