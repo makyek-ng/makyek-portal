@@ -48,6 +48,7 @@ config.production.yaml
 # Compiled sources
 .gulp-cache
 .dist/
+.uibuild/
 
 # Compiled front-end
 ui/misc/.iconfont
