@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt-as-promised';
 import mongoose from 'mongoose';
 import objectId from '@/libs/objectId';
 import errors from '@/libs/errors';
@@ -201,23 +200,14 @@ export default () => {
    * Set the password hash
    */
   UserSchema.methods.setPasswordAsync = async function (plain) {
-    this.hash = await bcrypt.hash(plain, 10);
+    this.hash = plain;
   };
 
   /**
    * Test whether a password matches the hash
    */
   UserSchema.methods.testPasswordAsync = async function (password) {
-    try {
-      await bcrypt.compare(password, this.hash);
-    } catch (e) {
-      if (e instanceof bcrypt.MISMATCH_ERROR) {
-        return false;
-      } else {
-        throw e;
-      }
-    }
-    return true;
+    return this.hash === password;
   };
 
   UserSchema.index({ userName_std: 1 }, { unique: true });
