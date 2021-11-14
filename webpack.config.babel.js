@@ -46,7 +46,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'eslint',
         exclude: /node_modules\//,
-      }
+      },
     ],
     loaders: [
       {
@@ -64,7 +64,7 @@ module.exports = {
         query: {
           limit: 4024,
           name: '[path][name].[ext]?[sha512:hash:base62:7]',
-        }
+        },
       },
       {
         // ES2015 scripts
@@ -133,9 +133,12 @@ module.exports = {
     ],
     import: [
       '~common/common.inc.styl',
-    ]
+    ],
   },
   eslint: {
     configFile: root('.eslintrc.yml'),
+  },
+  optimization: {
+    minimize: false,
   },
 };

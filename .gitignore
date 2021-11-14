@@ -48,6 +48,7 @@ config.production.yaml
 # Compiled sources
 .gulp-cache
 .dist/
+.uibuild/
 
 # Compiled front-end
 ui/misc/.iconfont
@@ -67,4 +68,6 @@ sftp-config.json
 
 *.rdb
 *.txt
-config.yaml
+
+# for mongodb
+.persistence
