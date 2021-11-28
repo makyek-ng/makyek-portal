@@ -44,6 +44,7 @@ jspm_packages
 # Config files
 config.debug.yaml
 config.production.yaml
+config.yaml
 
 # Compiled sources
 .gulp-cache
@@ -71,3 +72,4 @@ sftp-config.json
 
 # for mongodb
 .persistence
+
