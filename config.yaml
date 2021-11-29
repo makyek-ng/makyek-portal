@@ -25,7 +25,7 @@ base:
       sizeOfCode: 1048576     # 1 MB
       sizeOfBin: 1048576      # 1 MB
       sizeOfText: 102400      # 100 KB
-      submitInterval: 300000  # 5 minutes, for students
+      submitInterval: 30  # 5 minutes, for students
       minSubmitInterval: 60000 # 1 minute, for administrators
       maxExecQuota: 36000000  # 10 hours
   match:
