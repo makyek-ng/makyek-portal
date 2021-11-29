@@ -105,26 +105,13 @@ const page = new NamedPage('round_detail', () => {
           return false;
         }
         if (log.data.action === 'createBoard') {
-          board = new makyek.Board();
+          board = new makyek.Board(12);
           currentStep++;
         } else if (log.data.action === 'place') {
-          // position goes like this: N x0,y0 x1,y1 ...
-          var operation = log.data.position.split(' ');
-          for (var i = 0; i < operation.length; i++) {
-            if (i != 0 && i != operation.length - 1) {
-              var op0 = operation[i].split(',');
-              var x0 = op0[0];
-              var y0 = op0[1];
-              var op1 = operation[i + 1].split(',');
-              var x1 = op1[0];
-              var y1 = op1[1];
-              if (i == operation.length - 2)
-                board.placeAt(log.data.field, x0, y0, x1, y1, true);
-              else
-                board.placeAt(log.data.field, x0, y0, x1, y1, false);
-            }
-          }
-          // board.placeAt(log.data.field, log.data.position[0], log.data.position[1], log.data.option);
+          var pos = log.data.position.split(' ');
+          var x = parseInt(pos[0], 10);
+          var y = parseInt(pos[1], 10);
+          board.placeAt(log.data.field, x, y);
           lastPlace = _.clone(log.data.position);
           lastOption = log.data.option;
           currentStep++;
