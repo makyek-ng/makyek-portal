@@ -1,9 +1,9 @@
 base:
   redis: 
-    host: localhost
+    host: redis
     port: 6379
     password: redis
-  db: mongodb://makyek:makyek@localhost:27017/db
+  db: mongodb://makyek:makyek@db:27017/db
   secret: arbitrary-secret
   port: 8888
   host: localhost
@@ -42,7 +42,7 @@ base:
     vhosts:
       /:
         connection:
-          hostname: localhost
+          hostname: rabbit
           user: root
           password: 123456
         queues:
