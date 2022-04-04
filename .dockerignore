@@ -1,0 +1,12 @@
+*
+
+!/src
+!/ui
+!/.eslintrc.yml
+!/*.py
+!/gulpfile.babel.js
+!/package.json
+!/package-lock.json
+!/pm2.yaml
+!/services*.yaml
+!/webpack.config.babel.js
